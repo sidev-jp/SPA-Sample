@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD> 
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>SPA Sample</TITLE>
+<link rel="stylesheet" type="text/css" href="lib/uikit.min.css">
+<link rel="stylesheet" type="text/css" href="css/test.css">
+<link rel="stylesheet" type="text/css" href="css/codes.css">
+<script src="https://code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="lib/uikit.min.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/ukcomp.js"></script>
+<script type="text/javascript" src="js/list.js"></script>
+<script type="text/javascript">
+// ブラウザ使用言語
+const lang = util.language();
+
+function init(){
+	const search = new Search({
+		id:"search",
+		url:"api/sample/search",
+		max: 50,
+		icon:{
+			tag:"a"
+		},
+		input:{
+			placeholder:"Search..."
+		},
+		onsearched: function (res, option) {
+			if (option.pos === 0) list.option.data = res;
+			else for (let key in res) list.option.data[key] = res[key];
+			list.render();
+			list.state = List.STANDBY;
+		}
+	});
+	search.render();
+	search.icon.onclick(); // 初回検索
+	const list = new List({id:"list",style:"striped",data:{}, 
+		onrecord: function(id, data){
+			//this.innerHTML = "[" + id + "]" + data.name;
+			let wk = "<span class='id'>[${id}]</span>";
+			wk += "<span class='name'>${name}</span>";
+			wk += "<span class='sex' lang='${lang}' code='${sex}'></span>";
+			wk += "<span class='birthday'>${birthday}</span>";
+			wk += "<span class='address' title='${address}'>${address}</span>";
+			wk = wk.replace(/\$\{id\}/g, id);
+			wk = wk.replace(/\$\{name\}/g, data.name);
+			wk = wk.replace(/\$\{sex\}/g, data.sex);
+			wk = wk.replace(/\$\{birthday\}/g, data.birthday);
+			wk = wk.replace(/\$\{address\}/g, data.address);
+			wk = wk.replace(/\$\{lang\}/g, lang);
+			this.innerHTML = wk;
+		},
+		onnext: function () {
+			search.option.pos = search.option.pos + search.option.max;
+			search.execute(search.prev.key);
+		}
+	});
+	list.render();
+}
+
+</script>
+</HEAD>
+<BODY onload="init();">
+
+	<div class="uk-container uk-container-center">
+		<form id="search" onsubmit="return false;">
+		</form>
+
+		<ul id="list">
+		</ul>
+
+		<p>※このサンプルの住所は自動生成した架空の住所です。</p>
+	</div>
+
+</BODY>
+</HTML>

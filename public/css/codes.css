@@ -1,0 +1,4 @@
+.sex[code='1']:lang(ja)::before{content: '\7537';}
+.sex[code='2']:lang(ja)::before{content: '\5973';}
+.sex[code='1']:lang(en)::before{content: 'Man';}
+.sex[code='2']:lang(en)::before{content: 'Woman';}

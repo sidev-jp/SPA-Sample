@@ -34,7 +34,7 @@ const server = app.listen(3000, function(){
     console.log("Node.js is listening to PORT:" + server.address().port);
 });
 
-app.get("/api/sample/search", function(req, res, next){
+app.get("/SPA-Sample/api/sample/search", function(req, res, next){
     res.json(dataStore.get(
         req.query.pos, 
         req.query.max, 

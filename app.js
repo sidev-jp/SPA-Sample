@@ -8,7 +8,7 @@ const DataStore = require("./dataStore.js");
 
 const dataStore = new DataStore(data.temp());
 
-app.use(express.static('public'));
+app.use('/SPA-Sample', express.static('public'));
 
 app.use(session({
     secret: '78df69d4-6fbf-4d72-a727-a2c5943eac16',
@@ -34,7 +34,7 @@ const server = app.listen(3000, function(){
     console.log("Node.js is listening to PORT:" + server.address().port);
 });
 
-app.get("/api/sample/search", function(req, res, next){
+app.get("/SPA-Sample/api/sample/search", function(req, res, next){
     res.json(dataStore.get(
         req.query.pos, 
         req.query.max, 
